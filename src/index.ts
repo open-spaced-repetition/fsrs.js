@@ -10,7 +10,7 @@ class Params {
         this.maximum_interval = 36500;
         this.easy_bonus = 1.3;
         this.hard_factor = 1.2;
-        this.w = [1., 1., 5., -0.5, -0.5, 0.2, 1.4, -0.12, 0.8, 2., -0.2, 0.2, 1.];
+        this.w = [1.0, 1.0, 5.0, -0.5, -0.5, 0.2, 1.4, -0.12, 0.8, 2.0, -0.2, 0.2, 1.0];
     }
 }
 
@@ -241,4 +241,4 @@ class FSRS {
     }
 }
 
-export { Rating, Card, FSRS };
+export { Params, Rating, Card, FSRS };
