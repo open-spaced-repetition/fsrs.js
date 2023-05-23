@@ -1,26 +1,66 @@
 {
-    "name": "fsrs.js",
-    "version": "0.0.5",
-    "description": "FSRS (free spaced repetition scheduler) algorithm, based on the DSR model proposed by Piotr Wozniak, author of SuperMemo",
-    "main": "fsrs.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/open-spaced-repetition/fsrs.js.git"
-    },
-    "keywords": [
-        "SuperMemo",
-        "Anki"
+    "version": "0.1.2",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
+    "files": [
+        "dist",
+        "src"
     ],
-    "author": "open-spaced-repetition",
-    "license": "ISC",
+    "engines": {
+        "node": ">=10"
+    },
+    "scripts": {
+        "start": "tsdx watch",
+        "build": "tsdx build",
+        "test": "tsdx test",
+        "lint": "tsdx lint",
+        "prepare": "tsdx build",
+        "size": "size-limit",
+        "analyze": "size-limit --why"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "tsdx lint"
+        }
+    },
+    "prettier": {
+        "printWidth": 80,
+        "semi": true,
+        "singleQuote": true,
+        "trailingComma": "es5"
+    },
+    "name": "fsrs.js",
+    "description": "FSRS (free spaced repetition scheduler) algorithm, based on the DSR model proposed by Piotr Wozniak, author of SuperMemo",
+    "author": "oflg",
+    "module": "dist/fsrs.js.esm.js",
     "bugs": {
         "url": "https://github.com/open-spaced-repetition/fsrs.js/issues"
     },
     "homepage": "https://github.com/open-spaced-repetition/fsrs.js#readme",
     "publishConfig": {
         "access": "public"
+    },
+    "size-limit": [
+        {
+            "path": "dist/fsrs.js.cjs.production.min.js",
+            "limit": "10 KB"
+        },
+        {
+            "path": "dist/fsrs.js.esm.js",
+            "limit": "10 KB"
+        }
+    ],
+    "devDependencies": {
+        "@size-limit/preset-small-lib": "^8.2.4",
+        "@types/jest": "^29.5.1",
+        "husky": "^8.0.3",
+        "size-limit": "^8.2.4",
+        "tsdx": "^0.14.1",
+        "tslib": "^2.5.0",
+        "typescript": "^4.9.5"
+    },
+    "dependencies": {
+        "deepcopy": "^2.1.0"
     }
 }

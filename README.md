@@ -1,20 +1,74 @@
-JavaScript module of Free Spaced Repetition Scheduler algorithm, based on the [DSR model](https://supermemo.guru/wiki/Two_components_of_memory) proposed by [Piotr Wozniak](https://supermemo.guru/wiki/Piotr_Wozniak), author of SuperMemo.
+## About The Project
 
-# Usage
+fsrs.js is a JS Package implements [Free Spaced Repetition Scheduler algorithm](https://github.com/open-spaced-repetition/free-spaced-repetition-scheduler). It helps developers apply FSRS in their flashcard apps.
 
-`npm install fsrs.js` to import this module.
+## Getting Started
 
-## Example
+```
+npm install fsrs.js
+```
+
+## Usage
+
+Create a card and review it at a given time:
+```js
+import * as fsrsjs from 'fsrs.js'
+
+let fsrs = new fsrsjs.FSRS;
+let card = new fsrsjs.Card;
+
+//Set algorithm parameters
+// fsrs.p.w=[1.0, 1.0, 5.0, -0.5, -0.5, 0.2, 1.4, -0.12, 0.8, 2.0, -0.2, 0.2, 1.0]
+conslog(fsrs.p.w)
+
+let now = new Date(2022, 10, 29, 12, 30, 0, 0);
+let scheduling_cards = fsrs.repeat(card, now);
+console.log(scheduling_cards);
+```
+
+There are four ratings:
+```js
+0: Forget //incorrect response
+1: Hard //recall; correct response recalled with serious difficulty
+2: Good //recall; correct response after a hesitation
+3: Easy // recall; perfect response
+```
+
+There are four states:
+```js
+0: New //Never been studied
+1: Learning //Been studied for the first time recently
+2: Review //Graduate from learning state
+3: Relearning //Forgotten in review state
+```
 
 ```js
-var fsrs = require("fsrs.js")
+//Get the new state of card for each rating:
+scheduling_cards[0].card
+scheduling_cards[1].card
+scheduling_cards[2].card
+scheduling_cards[3].card
 
-//input data
-var cardData={id:'id'},
-    grade=-1,//Grade `-1` means learn new card,and `0, 1, 2` means review old card (0:forget 1:remember 2:grasp).
-    globalData=null;
+//Update the card after rating `Good`:
+card = scheduling_cards[2].card
 
-var outputData = fsrs(cardData,grade,globalData)//Return {cardData,globalData}. You can save this output data and use it as input data the next time you update grade.
+//Get the due date for card:
+due = card.due
 
-console.log(outputData)
+//Get the state for card:
+state = card.state
+
+//Get the review log after rating `Good`:
+review_log = scheduling_cards[2].review_log
 ```
+
+
+
+
+
+
+
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
