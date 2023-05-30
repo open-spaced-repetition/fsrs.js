@@ -238,7 +238,7 @@ export class FSRS {
             hard_interval = Math.min(hard_interval, good_interval);
             good_interval = Math.max(good_interval, hard_interval + 1);
             let easy_interval = Math.max(
-                this.next_interval(s.easy.stability * this.p.hard_factor),
+                this.next_interval(s.easy.stability * this.p.easy_bonus),
                 good_interval + 1
             );
             s.schedule(now, hard_interval, good_interval, easy_interval);
