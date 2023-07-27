@@ -11,6 +11,7 @@ npm install fsrs.js
 ## Usage
 
 Create a card and review it at a given time:
+
 ```js
 import * as fsrsjs from 'fsrs.js'
 
@@ -27,14 +28,16 @@ console.log(scheduling_cards);
 ```
 
 There are four ratings:
+
 ```js
-0: Forget //incorrect response
-1: Hard //recall; correct response recalled with serious difficulty
-2: Good //recall; correct response after a hesitation
-3: Easy // recall; perfect response
+1: Forget //incorrect response
+2: Hard //recall; correct response recalled with serious difficulty
+3: Good //recall; correct response after a hesitation
+4: Easy // recall; perfect response
 ```
 
 There are four states:
+
 ```js
 0: New //Never been studied
 1: Learning //Been studied for the first time recently
@@ -61,13 +64,6 @@ state = card.state
 //Get the review log after rating `Good`:
 review_log = scheduling_cards[2].review_log
 ```
-
-
-
-
-
-
-
 
 ## License
 
