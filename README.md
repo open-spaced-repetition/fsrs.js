@@ -19,7 +19,7 @@ let fsrs = new fsrsjs.FSRS;
 let card = new fsrsjs.Card;
 
 //Set algorithm parameters
-// fsrs.p.w=[1.0, 1.0, 5.0, -0.5, -0.5, 0.2, 1.4, -0.12, 0.8, 2.0, -0.2, 0.2, 1.0]
+// fsrs.p.w=[0.4, 0.6, 2.4, 5.8, 4.93, 0.94, 0.86, 0.01, 1.49, 0.14, 0.94, 2.18, 0.05, 0.34, 1.26, 0.29, 2.61]
 conslog(fsrs.p.w)
 
 let now = new Date(2022, 10, 29, 12, 30, 0, 0);
@@ -47,13 +47,13 @@ There are four states:
 
 ```js
 //Get the new state of card for each rating:
-scheduling_cards[0].card
 scheduling_cards[1].card
 scheduling_cards[2].card
 scheduling_cards[3].card
+scheduling_cards[4].card
 
 //Update the card after rating `Good`:
-card = scheduling_cards[2].card
+card = scheduling_cards[3].card
 
 //Get the due date for card:
 due = card.due
@@ -62,7 +62,7 @@ due = card.due
 state = card.state
 
 //Get the review log after rating `Good`:
-review_log = scheduling_cards[2].review_log
+review_log = scheduling_cards[3].review_log
 ```
 
 ## License
