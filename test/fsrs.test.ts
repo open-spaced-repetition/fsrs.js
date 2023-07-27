@@ -24,12 +24,12 @@ function test_repeat() {
 
     console.log(scheduling_cards);
 
-    card = scheduling_cards[2].card;
+    card = scheduling_cards[3].card;
     now = card.due;
     scheduling_cards = f.repeat(card, now);
     console.log(scheduling_cards);
 
-    card = scheduling_cards[2].card;
+    card = scheduling_cards[3].card;
     now = card.due;
     scheduling_cards = f.repeat(card, now);
     console.log(scheduling_cards);
