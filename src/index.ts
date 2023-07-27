@@ -8,10 +8,10 @@ enum State {
 }
 
 enum Rating {
-    Again = 0,
-    Hard = 1,
-    Good = 2,
-    Easy = 3,
+    Again = 1,
+    Hard = 2,
+    Good = 3,
+    Easy = 4,
 }
 
 class ReviewLog {
@@ -181,16 +181,12 @@ class SchedulingCards {
 class Params {
     request_retention: number;
     maximum_interval: number;
-    easy_bonus: number;
-    hard_factor: number;
     w: Array<number>;
 
     constructor() {
         this.request_retention = 0.9;
         this.maximum_interval = 36500;
-        this.easy_bonus = 1.3;
-        this.hard_factor = 1.2;
-        this.w = [1.0, 1.0, 5.0, -0.5, -0.5, 0.2, 1.4, -0.12, 0.8, 2.0, -0.2, 0.2, 1.0];
+        this.w = [0.4, 0.6, 2.4, 5.8, 4.93, 0.94, 0.86, 0.01, 1.49, 0.14, 0.94, 2.18, 0.05, 0.34, 1.26, 0.29, 2.61];
     }
 }
 
@@ -215,14 +211,14 @@ export class FSRS {
             s.again.due = new Date(now.getTime() + 60 * 1000);
             s.hard.due = new Date(now.getTime() + 5 * 60 * 1000);
             s.good.due = new Date(now.getTime() + 10 * 60 * 1000);
-            let easy_interval = this.next_interval(s.easy.stability * this.p.easy_bonus);
+            let easy_interval = this.next_interval(s.easy.stability);
             s.easy.scheduled_days = easy_interval;
             s.easy.due = new Date(now.getTime() + easy_interval * 24 * 60 * 60 * 1000);
         } else if (card.state == State.Learning || card.state == State.Relearning) {
             let hard_interval = 0;
             let good_interval = this.next_interval(s.good.stability);
             let easy_interval = Math.max(
-                this.next_interval(s.easy.stability * this.p.easy_bonus),
+                this.next_interval(s.easy.stability),
                 good_interval + 1
             );
             s.schedule(now, hard_interval, good_interval, easy_interval);
@@ -230,15 +226,14 @@ export class FSRS {
             let interval = card.elapsed_days;
             let last_d = card.difficulty;
             let last_s = card.stability;
-            let retrievability =
-                Math.exp(Math.log(0.9) * (interval / last_s));
+            let retrievability = Math.pow(1 + interval / (9 * last_s), -1);
             this.next_ds(s, last_d, last_s, retrievability);
-            let hard_interval = this.next_interval(last_s * this.p.hard_factor);
+            let hard_interval = this.next_interval(s.hard.stability);
             let good_interval = this.next_interval(s.good.stability);
             hard_interval = Math.min(hard_interval, good_interval);
             good_interval = Math.max(good_interval, hard_interval + 1);
             let easy_interval = Math.max(
-                this.next_interval(s.easy.stability * this.p.easy_bonus),
+                this.next_interval(s.easy.stability),
                 good_interval + 1
             );
             s.schedule(now, hard_interval, good_interval, easy_interval);
@@ -271,59 +266,66 @@ export class FSRS {
         s.hard.stability = this.next_recall_stability(
             s.hard.difficulty,
             last_s,
-            retrievability
+            retrievability,
+            Rating.Hard
         );
         s.good.difficulty = this.next_difficulty(last_d, Rating.Good);
         s.good.stability = this.next_recall_stability(
             s.good.difficulty,
             last_s,
-            retrievability
+            retrievability,
+            Rating.Good
         );
         s.easy.difficulty = this.next_difficulty(last_d, Rating.Easy);
         s.easy.stability = this.next_recall_stability(
             s.easy.difficulty,
             last_s,
-            retrievability
+            retrievability,
+            Rating.Easy
         );
     }
     init_stability(r: number): number {
-        return Math.max(this.p.w[0] + this.p.w[1] * r, 0.1);
+        return Math.max(this.p.w[r - 1], 0.1);
     }
     init_difficulty(r: number): number {
-        return Math.min(Math.max(this.p.w[2] + this.p.w[3] * (r - 2), 1), 10);
+        return Math.min(Math.max(this.p.w[4] - this.p.w[5] * (r - 3), 1), 10);
     }
     next_interval(s: number): number {
-        let interval =
-            (s * Math.log(this.p.request_retention)) / Math.log(0.9);
+        let interval = s * 9 * (1 / this.p.request_retention - 1);
         return Math.min(Math.max(Math.round(interval), 1), this.p.maximum_interval);
     }
     next_difficulty(d: number, r: number): number {
-        let next_d = d + this.p.w[4] * (r - 2);
-        return Math.min(Math.max(this.mean_reversion(this.p.w[2], next_d), 1), 10);
+        let next_d = d - this.p.w[6] * (r - 3);
+        return Math.min(Math.max(this.mean_reversion(this.p.w[4], next_d), 1), 10);
     }
     mean_reversion(init: number, current: number): number {
-        return this.p.w[5] * init + (1 - this.p.w[5]) * current;
+        return this.p.w[7] * init + (1 - this.p.w[7]) * current;
     }
     next_recall_stability(
         d: number,
         s: number,
-        r: number
+        r: number,
+        rating: number
     ): number {
+        let hard_penalty = rating == Rating.Hard ? this.p.w[15] : 1;
+        let good_bonus = rating == Rating.Good ? this.p.w[16] : 1;
         return (
             s *
             (1 +
-                Math.exp(this.p.w[6]) *
+                Math.exp(this.p.w[8]) *
                 (11 - d) *
-                Math.pow(s, this.p.w[7]) *
-                (Math.exp((1 - r) * this.p.w[8]) - 1))
+                Math.pow(s, -this.p.w[9]) *
+                (Math.exp((1 - r) * this.p.w[10]) - 1) *
+                hard_penalty *
+                good_bonus)
         );
     }
     next_forget_stability(d: number, s: number, r: number): number {
         return (
-            this.p.w[9] *
-            Math.pow(d, this.p.w[10]) *
-            Math.pow(s, this.p.w[11]) *
-            Math.exp((1 - r) * this.p.w[12])
+            this.p.w[11] *
+            Math.pow(d, -this.p.w[12]) *
+            (Math.pow(s + 1, this.p.w[13]) - 1) *
+            Math.exp((1 - r) * this.p.w[14])
         );
     }
 }

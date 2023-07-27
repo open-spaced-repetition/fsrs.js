@@ -11,7 +11,7 @@ describe('Card', () => {
 describe('FSRS', () => {
     console.log(FSRS.init_stability(0))
     it('FSRS.p', () => {
-        expect(FSRS.p.w).toEqual([1.0, 1.0, 5.0, -0.5, -0.5, 0.2, 1.4, -0.12, 0.8, 2.0, -0.2, 0.2, 1.0]);
+        expect(FSRS.p.w).toEqual([0.4, 0.6, 2.4, 5.8, 4.93, 0.94, 0.86, 0.01, 1.49, 0.14, 0.94, 2.18, 0.05, 0.34, 1.26, 0.29, 2.61]);
     });
 });
 
@@ -24,12 +24,12 @@ function test_repeat() {
 
     console.log(scheduling_cards);
 
-    card = scheduling_cards[2].card;
+    card = scheduling_cards[3].card;
     now = card.due;
     scheduling_cards = f.repeat(card, now);
     console.log(scheduling_cards);
 
-    card = scheduling_cards[2].card;
+    card = scheduling_cards[3].card;
     now = card.due;
     scheduling_cards = f.repeat(card, now);
     console.log(scheduling_cards);
