@@ -1,4 +1,5 @@
 import * as model from "../src";
+import { Rating } from "../src";
 let Card = new model.Card;
 let FSRS = new model.FSRS;
 
@@ -18,37 +19,25 @@ describe('FSRS', () => {
 function test_repeat() {
     // let rating = new model.Rating();
     let f = new model.FSRS;
+    f.p.w = [1.14, 1.01, 5.44, 14.67, 5.3024, 1.5662, 1.2503, 0.0028, 1.5489, 0.1763, 0.9953, 2.7473, 0.0179, 0.3105, 0.3976, 0.0, 2.0902];
     let card = new model.Card;
     let now = new Date(2022, 10, 29, 12, 30, 0, 0);
     let scheduling_cards = f.repeat(card, now);
 
     console.log(scheduling_cards);
+    let ratings = [Rating.Good, Rating.Good, Rating.Good, Rating.Good, Rating.Good, Rating.Good, Rating.Again, Rating.Again, Rating.Good, Rating.Good, Rating.Good, Rating.Good, Rating.Good]
+    let ivl_history = new Array<number>();
 
-    card = scheduling_cards[3].card;
-    now = card.due;
-    scheduling_cards = f.repeat(card, now);
-    console.log(scheduling_cards);
+    for (let i = 0; i < ratings.length; i++) {
+        card = scheduling_cards[ratings[i]].card;
+        ivl_history.push(card.scheduled_days);
+        now = card.due;
+        scheduling_cards = f.repeat(card, now);
+        console.log(scheduling_cards);
+    }
 
-    card = scheduling_cards[3].card;
-    now = card.due;
-    scheduling_cards = f.repeat(card, now);
-    console.log(scheduling_cards);
-
-
-    //     card = scheduling_cards[rating.Good].card;
-    //     now = card.due;
-    //     scheduling_cards = f.repeat(card, now);
-    //     console.log(scheduling_cards);
-
-    //     card = scheduling_cards[rating.Again].card;
-    //     now = card.due;
-    //     scheduling_cards = f.repeat(card, now);
-    //     console.log(scheduling_cards);
-
-    //     card = scheduling_cards[rating.Good].card;
-    //     now = card.due;
-    //     scheduling_cards = f.repeat(card, now);
-    //     console.log(scheduling_cards);
+    console.log(ivl_history);
+    expect(ivl_history).toEqual([0, 5, 16, 43, 106, 236, 0, 0, 12, 25, 47, 85, 147]);
 }
 
 test_repeat();

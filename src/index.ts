@@ -308,7 +308,7 @@ export class FSRS {
         rating: number
     ): number {
         let hard_penalty = rating == Rating.Hard ? this.p.w[15] : 1;
-        let good_bonus = rating == Rating.Good ? this.p.w[16] : 1;
+        let easy_bonus = rating == Rating.Easy ? this.p.w[16] : 1;
         return (
             s *
             (1 +
@@ -317,7 +317,7 @@ export class FSRS {
                 Math.pow(s, -this.p.w[9]) *
                 (Math.exp((1 - r) * this.p.w[10]) - 1) *
                 hard_penalty *
-                good_bonus)
+                easy_bonus)
         );
     }
     next_forget_stability(d: number, s: number, r: number): number {
