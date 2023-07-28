@@ -1,20 +1,20 @@
 const deepcopy = require('deepcopy');
 
-enum State {
+export enum State {
     New = 0,
     Learning = 1,
     Review = 2,
     Relearning = 3,
 }
 
-enum Rating {
+export enum Rating {
     Again = 1,
     Hard = 2,
     Good = 3,
     Easy = 4,
 }
 
-class ReviewLog {
+export class ReviewLog {
     rating: Rating;
     elapsed_days: number;
     scheduled_days: number;
@@ -67,7 +67,7 @@ export class Card {
     }
 }
 
-class SchedulingInfo {
+export class SchedulingInfo {
     card: Card;
     review_log: ReviewLog;
 
