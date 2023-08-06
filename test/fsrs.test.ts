@@ -1,5 +1,5 @@
 import * as model from '../src';
-import { Rating } from '../src';
+import { Rating, State } from '../src';
 let Card = new model.Card();
 let FSRS = new model.FSRS();
 
@@ -57,6 +57,7 @@ function test_repeat() {
     2.0902,
   ];
   let card = new model.Card();
+  let revlog: model.ReviewLog;
   let now = new Date(2022, 10, 29, 12, 30, 0, 0);
   let scheduling_cards = f.repeat(card, now);
 
@@ -77,16 +78,21 @@ function test_repeat() {
     Rating.Good,
   ];
   let ivl_history = new Array<number>();
+  let state_history = new Array<State>();
 
   for (let i = 0; i < ratings.length; i++) {
     card = scheduling_cards[ratings[i]].card;
     ivl_history.push(card.scheduled_days);
+    revlog = scheduling_cards[ratings[i]].review_log;
+    state_history.push(revlog.state);
     now = card.due;
     scheduling_cards = f.repeat(card, now);
     console.log(scheduling_cards);
   }
 
   console.log(ivl_history);
+  console.log(state_history);
+
   expect(ivl_history).toEqual([
     0,
     5,
@@ -101,6 +107,22 @@ function test_repeat() {
     47,
     85,
     147,
+  ]);
+
+  expect(state_history).toEqual([
+    State.New,
+    State.Learning,
+    State.Review,
+    State.Review,
+    State.Review,
+    State.Review,
+    State.Review,
+    State.Relearning,
+    State.Relearning,
+    State.Review,
+    State.Review,
+    State.Review,
+    State.Review,
   ]);
 }
 
