@@ -17,7 +17,7 @@ const fsrsJs = require("fsrs.js")
 
 let fsrs = new fsrsJs.FSRS;
 let card = new fsrsJs.Card;
-let reating= fsrsJs.Rating;
+let rating= fsrsJs.Rating;
 let state = fsrsJs.State;
 
 //Set algorithm parameters
@@ -32,10 +32,10 @@ console.log(scheduling_cards);
 There are four ratings:
 
 ```js
-reating.Again //incorrect response
-reating.Hard //recall; correct response recalled with serious difficulty
-reating.Good //recall; correct response after a hesitation
-reating.Easy // recall; perfect response
+rating.Again //incorrect response
+rating.Hard //recall; correct response recalled with serious difficulty
+rating.Good //recall; correct response after a hesitation
+rating.Easy // recall; perfect response
 ```
 
 There are four states:
@@ -49,13 +49,13 @@ state.Relearning //Forgotten in review state
 
 ```js
 //Get the new state of card for each rating:
-scheduling_cards[reating.Again].card
-scheduling_cards[reating.Hard].card
-scheduling_cards[reating.Good].card
-scheduling_cards[reating.Easy].card
+scheduling_cards[rating.Again].card
+scheduling_cards[rating.Hard].card
+scheduling_cards[rating.Good].card
+scheduling_cards[rating.Easy].card
 
 //Update the card after rating `Good`:
-card = scheduling_cards[reating.Good].card
+card = scheduling_cards[rating.Good].card
 
 //Get the due date for card:
 due = card.due
@@ -64,7 +64,7 @@ due = card.due
 state = card.state
 
 //Get the review log after rating `Good`:
-review_log = scheduling_cards[reating.Good].review_log
+review_log = scheduling_cards[rating.Good].review_log
 ```
 
 ## License
