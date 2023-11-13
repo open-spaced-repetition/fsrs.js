@@ -1,30 +1,26 @@
-const fsrsJs = require('fsrs.js');
 import { FSRS, Card, State, Rating } from '../src/index';
-
-let fsrs = new fsrsJs.FSRS();
-let card = new fsrsJs.Card();
-let rating = fsrsJs.Rating;
-let state = fsrsJs.State;
 
 describe('rating', () => {
   it('rating', () => {
-    expect(rating.Again).toEqual(1);
+    expect(Rating.Again).toEqual(1);
   });
 });
 
 describe('state', () => {
   it('state', () => {
-    expect(state.New).toEqual(0);
+    expect(State.New).toEqual(0);
   });
 });
 
 describe('card', () => {
+  const card = new Card();
   it('card.state', () => {
     expect(card.state).toEqual(0);
   });
 });
 
 describe('fsrs', () => {
+  const fsrs = new FSRS();
   console.log(fsrs.init_stability(0));
   it('fsrs.p', () => {
     expect(fsrs.p.w).toEqual([
@@ -50,7 +46,8 @@ describe('fsrs', () => {
 });
 
 function test_repeat() {
-  let f = new fsrsJs.FSRS();
+  let f = new FSRS();
+  let card_test = new Card();
   f.p.w = [
     1.14,
     1.01,
@@ -70,35 +67,33 @@ function test_repeat() {
     0.0,
     2.0902,
   ];
-  let card_test = new fsrsJs.Card();
-  let revlog = new fsrsJs.ReviewLog();
+
   let now = new Date(2022, 10, 29, 12, 30, 0, 0);
   let scheduling_cards = f.repeat(card_test, now);
 
   console.log(scheduling_cards);
   let ratings = [
-    rating.Good,
-    rating.Good,
-    rating.Good,
-    rating.Good,
-    rating.Good,
-    rating.Good,
-    rating.Again,
-    rating.Again,
-    rating.Good,
-    rating.Good,
-    rating.Good,
-    rating.Good,
-    rating.Good,
+    Rating.Good,
+    Rating.Good,
+    Rating.Good,
+    Rating.Good,
+    Rating.Good,
+    Rating.Good,
+    Rating.Again,
+    Rating.Again,
+    Rating.Good,
+    Rating.Good,
+    Rating.Good,
+    Rating.Good,
+    Rating.Good,
   ];
   let ivl_history = new Array<number>();
-  let state_history = new Array<typeof state>();
+  let state_history = new Array<State>();
 
   for (let i = 0; i < ratings.length; i++) {
     card_test = scheduling_cards[ratings[i]].card;
     ivl_history.push(card_test.scheduled_days);
-    revlog = scheduling_cards[ratings[i]].review_log;
-    state_history.push(revlog.state);
+    state_history.push(scheduling_cards[ratings[i]].review_log.state);
     now = card_test.due;
     scheduling_cards = f.repeat(card_test, now);
     console.log(scheduling_cards);
@@ -125,19 +120,19 @@ function test_repeat() {
   ]);
 
   expect(state_history).toEqual([
-    state.New,
-    state.Learning,
-    state.Review,
-    state.Review,
-    state.Review,
-    state.Review,
-    state.Review,
-    state.Relearning,
-    state.Relearning,
-    state.Review,
-    state.Review,
-    state.Review,
-    state.Review,
+    State.New,
+    State.Learning,
+    State.Review,
+    State.Review,
+    State.Review,
+    State.Review,
+    State.Review,
+    State.Relearning,
+    State.Relearning,
+    State.Review,
+    State.Review,
+    State.Review,
+    State.Review,
   ]);
 }
 
