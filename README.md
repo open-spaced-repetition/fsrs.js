@@ -15,14 +15,17 @@ Create a card and review it at a given time:
 ```js
 const fsrsJs = require("fsrs.js")
 
-let fsrs = new fsrsJs.FSRS;
-let card = new fsrsJs.Card;
+let fsrs = new fsrsJs.FSRS();
+let card = new fsrsJs.Card();
 let rating= fsrsJs.Rating;
 let state = fsrsJs.State;
 
 //Set algorithm parameters
+// fsrs.p.request_retention=0.9
+// fsrs.p.maximum_interval=36500
 // fsrs.p.w=[0.4, 0.6, 2.4, 5.8, 4.93, 0.94, 0.86, 0.01, 1.49, 0.14, 0.94, 2.18, 0.05, 0.34, 1.26, 0.29, 2.61]
-console.log(fsrs.p.w)
+
+console.log(fsrs.p)
 
 let now = new Date(2022, 10, 29, 12, 30, 0, 0);
 let scheduling_cards = fsrs.repeat(card, now);
