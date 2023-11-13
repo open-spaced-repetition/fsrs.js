@@ -14,14 +14,14 @@ export enum Rating {
 
 export class ReviewLog {
   rating: Rating;
-  elapsed_days: number;
   scheduled_days: number;
+  elapsed_days: number;
   review: Date;
   state: State;
   constructor(
     rating: Rating,
-    elapsed_days: number,
     scheduled_days: number,
+    elapsed_days: number,
     review: Date,
     state: State
   ) {

@@ -1,4 +1,5 @@
 const fsrsJs = require('fsrs.js');
+import { FSRS, Card, State, Rating } from '../src/index';
 
 let fsrs = new fsrsJs.FSRS();
 let card = new fsrsJs.Card();
@@ -141,3 +142,28 @@ function test_repeat() {
 }
 
 test_repeat();
+
+describe('ReviewLog', () => {
+  it('elapsed days set to 0 for new cards when scheduled days is set', () => {
+    const fsrs = new FSRS();
+    const card = new Card();
+    card.scheduled_days = 42;
+
+    const log = fsrs.repeat(card, new Date('2023-11-10T23:20:47.297Z'));
+    const againReviewLog = log[Rating.Again].review_log;
+
+    expect(againReviewLog.elapsed_days).toEqual(0);
+  });
+
+  it('scheduled days set to 0 for "Again" ratings irregardless of elapsed days since last review', () => {
+    const fsrs = new FSRS();
+    const card = new Card();
+    card.state = State.Learning;
+    card.last_review = new Date('2023-11-06T23:20:47.297Z');
+
+    const log = fsrs.repeat(card, new Date('2023-11-10T23:20:47.297Z'));
+    const againReviewLog = log[Rating.Again].review_log;
+
+    expect(againReviewLog.scheduled_days).toEqual(0);
+  });
+});
