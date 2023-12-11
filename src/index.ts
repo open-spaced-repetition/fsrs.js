@@ -85,7 +85,6 @@ class SchedulingCards {
       this.hard.state = State.Learning;
       this.good.state = State.Learning;
       this.easy.state = State.Review;
-      this.again.lapses += 1;
     } else if (state === State.Learning || state === State.Relearning) {
       this.again.state = state;
       this.hard.state = state;
@@ -277,27 +276,27 @@ export class FSRS {
   ): void {
     s.again.difficulty = this.next_difficulty(last_d, Rating.Again);
     s.again.stability = this.next_forget_stability(
-      s.again.difficulty,
+      last_d,
       last_s,
       retrievability
     );
     s.hard.difficulty = this.next_difficulty(last_d, Rating.Hard);
     s.hard.stability = this.next_recall_stability(
-      s.hard.difficulty,
+      last_d,
       last_s,
       retrievability,
       Rating.Hard
     );
     s.good.difficulty = this.next_difficulty(last_d, Rating.Good);
     s.good.stability = this.next_recall_stability(
-      s.good.difficulty,
+      last_d,
       last_s,
       retrievability,
       Rating.Good
     );
     s.easy.difficulty = this.next_difficulty(last_d, Rating.Easy);
     s.easy.stability = this.next_recall_stability(
-      s.easy.difficulty,
+      last_d,
       last_s,
       retrievability,
       Rating.Easy
