@@ -12,7 +12,7 @@ export enum Rating {
   Easy = 4,
 }
 
-class ReviewLog {
+export class ReviewLog {
   rating: Rating;
   scheduled_days: number;
   elapsed_days: number;
@@ -56,7 +56,7 @@ export class Card {
   }
 }
 
-class SchedulingInfo {
+export class SchedulingInfo {
   card: Card;
   review_log: ReviewLog;
 
