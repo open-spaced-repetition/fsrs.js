@@ -1,5 +1,5 @@
 {
-    "version": "1.2.1",
+    "version": "1.2.2",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -32,6 +32,11 @@
     },
     "name": "fsrs.js",
     "description": "FSRS (free spaced repetition scheduler) algorithm, based on the DSR model proposed by Piotr Wozniak, author of SuperMemo",
+    "keywords": [
+        "Anki",
+        "SuperMemo",
+        "FSRS"
+    ],
     "author": "oflg",
     "module": "dist/fsrs.js.esm.js",
     "bugs": {
