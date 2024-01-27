@@ -11,17 +11,17 @@
         "node": ">=10"
     },
     "scripts": {
-        "start": "tsdx watch",
-        "build": "tsdx build",
-        "test": "tsdx test",
-        "lint": "tsdx lint",
-        "prepare": "tsdx build",
+        "start": "dts watch",
+        "build": "dts build",
+        "test": "dts test",
+        "lint": "dts lint",
+        "prepare": "dts build",
         "size": "size-limit",
         "analyze": "size-limit --why"
     },
     "husky": {
         "hooks": {
-            "pre-commit": "tsdx lint"
+            "pre-commit": "dts lint"
         }
     },
     "prettier": {
@@ -61,8 +61,31 @@
         "@types/jest": "^29.5.1",
         "husky": "^8.0.3",
         "size-limit": "^8.2.4",
-        "tsdx": "^0.13.3",
+        "dts-cli": "2.0.4",
         "tslib": "^2.5.0",
         "typescript": "^4.9.5"
+    },
+    "overrides": {
+        "array-includes": "npm:@nolyfill/array-includes@latest",
+        "array.prototype.findlastindex": "npm:@nolyfill/array.prototype.findlastindex@latest",
+        "array.prototype.flat": "npm:@nolyfill/array.prototype.flat@latest",
+        "array.prototype.flatmap": "npm:@nolyfill/array.prototype.flatmap@latest",
+        "array.prototype.tosorted": "npm:@nolyfill/array.prototype.tosorted@latest",
+        "define-properties": "npm:@nolyfill/define-properties@latest",
+        "es-iterator-helpers": "npm:@nolyfill/es-iterator-helpers@latest",
+        "function-bind": "npm:@nolyfill/function-bind@latest",
+        "has-proto": "npm:@nolyfill/has-proto@latest",
+        "has-symbols": "npm:@nolyfill/has-symbols@latest",
+        "hasown": "npm:@nolyfill/hasown@latest",
+        "object.assign": "npm:@nolyfill/object.assign@latest",
+        "object.entries": "npm:@nolyfill/object.entries@latest",
+        "object.fromentries": "npm:@nolyfill/object.fromentries@latest",
+        "object.getownpropertydescriptors": "npm:@nolyfill/object.getownpropertydescriptors@latest",
+        "object.groupby": "npm:@nolyfill/object.groupby@latest",
+        "object.hasown": "npm:@nolyfill/object.hasown@latest",
+        "object.values": "npm:@nolyfill/object.values@latest",
+        "safe-array-concat": "npm:@nolyfill/safe-array-concat@latest",
+        "set-function-length": "npm:@nolyfill/set-function-length@latest",
+        "string.prototype.matchall": "npm:@nolyfill/string.prototype.matchall@latest"
     }
 }
