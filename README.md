@@ -12,6 +12,12 @@
 
 fsrs.js is a JS Package that implements the [Free Spaced Repetition Scheduler algorithm](https://github.com/open-spaced-repetition/free-spaced-repetition-scheduler). It helps developers apply FSRS in their flashcard apps.
 
+## Transition to ts-fsrs
+
+`fsrs.js` has provided basic features of FSRS. However, we recommend transitioning to [`ts-fsrs`](https://github.com/open-spaced-repetition/ts-fsrs), another TypeScript implementation of the FSRS. Due to the heavy research work, the major maintainer of `fsrs.js` becomes busy and cannot maintain the project. [`ts-fsrs`](https://github.com/open-spaced-repetition/ts-fsrs) is more actively maintained and provides more features and documentation.
+
+For migration support or inquiries, reach out via our [issue tracker](https://github.com/open-spaced-repetition/ts-fsrs/issues). We’re excited to continue our shared journey on [`ts-fsrs`](https://github.com/open-spaced-repetition/ts-fsrs).
+
 ## Getting Started
 
 ```
